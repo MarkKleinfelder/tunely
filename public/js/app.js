@@ -59,7 +59,9 @@ $("form").on("submit", function(event){
     method: "POST",
     url: "http://localhost:3000/api/albums",
     data: formdata,
-   
+    success: function(kanyeAlbums){
+      renderAlbum(kanyeAlbums);
+    }
   });
  });
 });
