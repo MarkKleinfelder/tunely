@@ -86,12 +86,11 @@ app.get('/api/albums', function album_index(req, res){
 });
 
 app.post('/api/albums', function(req,res){
-  //console.log('/api/albums post');
-  //console.log(req.body);
-  //let newGenres = req.body.genres.split(", ");
+  req.body.genres = req.body.genres.split(", ");
+  console.log('check genres before save to db');
   db.Album.create(req.body, function(error, album){
 
-      res.json(album);
+    res.json(album);
    });
 });
 

@@ -34,14 +34,14 @@
 //            });
 /* end of hard-coded data */
 
-
+var songs;
 var kanyeAlbums;
 
 $(document).ready(function() {
   console.log('app.js loaded!');
   
   $.get("http://localhost:3000/api/albums")
-    .done(function(data){
+    .done(function(data){  
     let kanyeAlbums = data;
     kanyeAlbums.forEach(function(album){
       renderAlbum(album);
@@ -72,13 +72,19 @@ $("form").on("submit", function(event){
 
 
 
+
+
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
+  var listOfSongs="";
+  album.songs.forEach(function(song){
+    listOfSongs=listOfSongs + ' (' + song.trackNumber + ') '+ song.name ; 
+  })
 
 
   var albumHtml =
   "        <!-- one album -->" +
-  "        <div class='row album' data-album-id='" + "HARDCODED ALBUM ID" + "'>" +
+  "        <div class='row album' data-album-id='" + album._id + "'>" +
   "          <div class='col-md-10 col-md-offset-1'>" +
   "            <div class='panel panel-default'>" +
   "              <div class='panel-body'>" +
@@ -101,6 +107,10 @@ function renderAlbum(album) {
   "                        <h4 class='inline-header'>Released date:</h4>" +
   "                        <span class='album-releaseDate'>" + album.releaseDate + "</span>" +
   "                      </li>" +
+  "                         <li class='list-group-item'>" + 
+  "                            <h4 class='inline-header'>Songs:</h4>"+
+  "                              <span >"+ listOfSongs +"</span>"+
+  "                          </li>"+
   "                    </ul>" +
   "                  </div>" +
   "                </div>" +
@@ -109,6 +119,7 @@ function renderAlbum(album) {
   "              </div>" + // end of panel-body
 
   "              <div class='panel-footer'>" +
+  "                   <button class='btn btn-primary add-song'>Add Song</button>"+
   "              </div>" +
 
   "            </div>" +
@@ -118,7 +129,15 @@ function renderAlbum(album) {
 
 $('#albums').append(albumHtml);
 
-  // render to the page with jQuery
+$('#albums').on('click', '.add-song', function(event){
+  console.log("add song button clicked");
+  var id = $(this).parents('.album').data('album-id');
+  console.log('id', id);
+ 
+
   
+})
+
+
 
 }
