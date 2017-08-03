@@ -63,9 +63,43 @@ $("form").on("submit", function(event){
       renderAlbum(kanyeAlbums);
     }
   });
- });
+});
+  $('#albums').on('click', '.add-song', function(event){
+    console.log("add song button clicked");
+    var id = $(this).parents('.album').data('album-id');
+    $('#songModal').data(id)
+    $('#songModal').modal();
+
+   $('#saveSong').on ('click', function handleNewSongSubmit(event){
+      console.log("save song clicked!");
+      event.preventDefault();
+      var songUrl = "http://localhost:3000/api/albums/"+id+"/songs";
+      var songName = $('#songName').val();
+      var trackNum = $('#trackNumber').val();
+      console.log(songName + " and " + trackNum + " id: " + id);
+
+      $.ajax({
+      method: "POST",
+      url: songUrl,
+      data: {
+        name: songName,
+        trackNumber: trackNum
+      },
+ 
+      success: function(){
+      console.log("SUCCESSS!");
+
+      $('#songModal').modal('hide');
+      $('#trackNumber').val("");
+      $('#songName').val("");
+      }
+    });
+  });
+    
+  });
 });
 
+ 
 
 
 
@@ -129,15 +163,6 @@ function renderAlbum(album) {
 
 $('#albums').append(albumHtml);
 
-$('#albums').on('click', '.add-song', function(event){
-  console.log("add song button clicked");
-  var id = $(this).parents('.album').data('album-id');
-  console.log('id', id);
- 
 
-  
-})
+};
 
-
-
-}
